@@ -13,11 +13,16 @@ export default function Chat() {
     const [waitingForAnswer, setWaitingForAnswer] = useState(false);
     const [userAnswers, setUserAnswers] = useState<Array<{ questionIndex: number; answer: string }>>([]);
     const chatEndRef = useRef<HTMLDivElement>(null);
+    const prevIndexRef = useRef(0);
 
-    // Auto-scroll al último mensaje
+    // Auto-scroll solo cuando aparecen nuevos mensajes
     useEffect(() => {
-        chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [currentIndex, isTyping, showQuestion, userAnswer]);
+        // Solo hacer scroll si el índice aumentó (nuevo mensaje)
+        if (currentIndex > prevIndexRef.current) {
+            chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+            prevIndexRef.current = currentIndex;
+        }
+    }, [currentIndex]);
 
     // Lógica de progresión de mensajes
     useEffect(() => {
