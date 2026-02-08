@@ -26,8 +26,8 @@ export type MessageType =
 // Flujo de mensajes
 export const MESSAGE_FLOW: MessageType[] = [
     { type: 'text', content: 'Hola Jessica 🙂', sender: 'her' },
-    { type: 'text', content: 'Esto es un poco raro, lo sé…', sender: 'her' },
-    { type: 'text', content: 'pero quería hacerte un detallito por San Valentín', sender: 'her' },
+    { type: 'text', content: 'Como tas? espero que bien', sender: 'her' },
+    { type: 'text', content: 'Te quería hacerte un detallito por San Valentín', sender: 'her' },
     { type: 'text', content: 'Como vivimos lejos, pensé en hacerlo así :3', sender: 'her' },
     {
         type: 'question',

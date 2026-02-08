@@ -42,6 +42,10 @@
     font-size: 18px;
     margin-bottom: 50px;
     opacity: 0.95;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    word-wrap: break-word;
 }
 
 .timer {
@@ -103,36 +107,100 @@
 }
 
 @media (max-width: 600px) {
-    .title {
-        font-size: 32px;
+    .countdownContainer {
+        padding: 16px;
     }
 
-    .subtitle {
-        font-size: 16px;
-    }
-
-    .timer {
-        gap: 8px;
-    }
-
-    .timeBox {
-        min-width: 70px;
-        padding: 16px 12px;
-    }
-
-    .timeValue {
-        font-size: 36px;
-    }
-
-    .timeLabel {
-        font-size: 12px;
-    }
-
-    .separator {
-        font-size: 28px;
+    .content {
+        width: 100%;
     }
 
     .heart {
         font-size: 60px;
+        margin-bottom: 16px;
+    }
+
+    .title {
+        font-size: 28px;
+        margin-bottom: 8px;
+        line-height: 1.2;
+    }
+
+    .subtitle {
+        font-size: 15px;
+        margin-bottom: 30px;
+        padding: 0 20px;
+        line-height: 1.5;
+        max-width: 100%;
+    }
+
+    .timer {
+        gap: 2px;
+        flex-wrap: nowrap;
+        padding: 0 5px;
+    }
+
+    .timeBox {
+        min-width: 55px;
+        padding: 10px 6px;
+        border-radius: 10px;
+    }
+
+    .timeValue {
+        font-size: 24px;
+        margin-bottom: 4px;
+    }
+
+    .timeLabel {
+        font-size: 9px;
+        letter-spacing: 0.3px;
+    }
+
+    .separator {
+        font-size: 20px;
+        margin: 0 1px;
+    }
+
+    .hint {
+        font-size: 14px;
+        padding: 0 10px;
+    }
+}
+
+@media (max-width: 380px) {
+    .title {
+        font-size: 24px;
+    }
+
+    .subtitle {
+        font-size: 13px;
+        margin-bottom: 24px;
+    }
+
+    .timer {
+        gap: 1px;
+        padding: 0 3px;
+    }
+
+    .timeBox {
+        min-width: 48px;
+        padding: 8px 4px;
+    }
+
+    .timeValue {
+        font-size: 20px;
+    }
+
+    .timeLabel {
+        font-size: 8px;
+    }
+
+    .separator {
+        font-size: 18px;
+        margin: 0;
+    }
+
+    .heart {
+        font-size: 50px;
     }
 }
