@@ -13,7 +13,7 @@ export const PHONE_NUMBER = "+34 640 898 461";
 
 // Fecha de desbloqueo (cuando se mostrará el chat)
 // Formato: 'YYYY-MM-DDTHH:MM:SS'
-export const UNLOCK_DATE = '2026-02-02T00:00:00';
+export const UNLOCK_DATE = '2026-02-14T00:00:00';
 
 // Tipos de mensajes
 export type MessageType =
