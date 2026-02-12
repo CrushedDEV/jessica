@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import MessageBubble from './MessageBubble';
-import { MESSAGE_FLOW, CONTACT_NAME, PLAYLIST_URL, PHONE_NUMBER, TYPING_DELAY, MESSAGE_DELAY } from '@/data/messages';
+import { MESSAGE_FLOW, CONTACT_NAME, PLAYLIST_URL, PHONE_NUMBER, TYPING_DELAY, MESSAGE_DELAY, LOVE_IMAGE_URL, MessageType } from '@/data/messages';
 import styles from './Chat.module.css';
 
 export default function Chat() {
+    const [messages, setMessages] = useState<MessageType[]>(MESSAGE_FLOW);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isTyping, setIsTyping] = useState(false);
     const [showQuestion, setShowQuestion] = useState(false);
@@ -15,20 +16,23 @@ export default function Chat() {
     const chatEndRef = useRef<HTMLDivElement>(null);
     const prevIndexRef = useRef(0);
 
-    // Auto-scroll solo cuando aparecen nuevos mensajes
+    // Auto-scroll solo cuando aparecen nuevos mensajes o se muestra una pregunta
     useEffect(() => {
-        // Solo hacer scroll si el índice aumentó (nuevo mensaje)
-        if (currentIndex > prevIndexRef.current) {
+        // Solo hacer scroll si el índice aumentó (nuevo mensaje) o si apareció una pregunta
+        if (currentIndex > prevIndexRef.current || showQuestion) {
             chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-            prevIndexRef.current = currentIndex;
+
+            if (currentIndex > prevIndexRef.current) {
+                prevIndexRef.current = currentIndex;
+            }
         }
-    }, [currentIndex]);
+    }, [currentIndex, showQuestion]);
 
     // Lógica de progresión de mensajes
     useEffect(() => {
-        if (currentIndex >= MESSAGE_FLOW.length) return;
+        if (currentIndex >= messages.length) return;
 
-        const currentMessage = MESSAGE_FLOW[currentIndex];
+        const currentMessage = messages[currentIndex];
 
         // Si es una pregunta
         if (currentMessage.type === 'question') {
@@ -62,18 +66,46 @@ export default function Chat() {
         }, TYPING_DELAY);
 
         return () => clearTimeout(typingTimer);
-    }, [currentIndex, userAnswer, showQuestion, waitingForAnswer]);
+    }, [currentIndex, userAnswer, showQuestion, waitingForAnswer, messages]);
 
     const handleAnswer = (answer: string) => {
         setShowQuestion(false);
         setWaitingForAnswer(false);
         setUserAnswer(answer);
+
         // Guardar la respuesta permanentemente
         setUserAnswers(prev => [...prev, { questionIndex: currentIndex, answer }]);
+
+        // Lógica para la pregunta final
+        const currentMessage = messages[currentIndex];
+        if (currentMessage.id === 'love_question') {
+            if (answer.toLowerCase().startsWith('s')) { // Sí, Si
+                setMessages(prev => [
+                    ...prev,
+                    {
+                        type: 'image',
+                        src: LOVE_IMAGE_URL,
+                        alt: 'Te quiero',
+                        sender: 'her',
+                        id: 'love_response'
+                    }
+                ]);
+            } else {
+                setMessages(prev => [
+                    ...prev,
+                    {
+                        type: 'text',
+                        content: ':(',
+                        sender: 'her',
+                        id: 'sad_response'
+                    }
+                ]);
+            }
+        }
     };
 
     const renderMessage = (index: number) => {
-        const message = MESSAGE_FLOW[index];
+        const message = messages[index];
 
         switch (message.type) {
             case 'text':
@@ -154,6 +186,16 @@ export default function Chat() {
                     </div>
                 );
 
+            case 'image':
+                return (
+                    <div key={index} className={styles.imageContainer}>
+                        <img src={message.src} alt={message.alt} className={styles.chatImage} />
+                        <a href={message.src} download="te_quiero.jpg" target="_blank" rel="noopener noreferrer" className={styles.downloadButton}>
+                            Descargar foto 📸
+                        </a>
+                    </div>
+                );
+
             default:
                 return null;
         }
@@ -172,7 +214,7 @@ export default function Chat() {
             </div>
 
             <div className={styles.chatMessages}>
-                {MESSAGE_FLOW.slice(0, currentIndex).map((_, index) => {
+                {messages.slice(0, currentIndex).map((_, index) => {
                     const userAnswerForQuestion = userAnswers.find(ua => ua.questionIndex === index);
                     return (
                         <React.Fragment key={index}>
@@ -188,7 +230,7 @@ export default function Chat() {
                     );
                 })}
 
-                {showQuestion && currentIndex < MESSAGE_FLOW.length && MESSAGE_FLOW[currentIndex].type === 'question' && (
+                {showQuestion && currentIndex < messages.length && messages[currentIndex].type === 'question' && (
                     renderMessage(currentIndex)
                 )}
 

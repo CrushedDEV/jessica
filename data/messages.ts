@@ -13,15 +13,20 @@ export const PHONE_NUMBER = "+34 640 898 461";
 
 // Fecha de desbloqueo (cuando se mostrará el chat)
 // Formato: 'YYYY-MM-DDTHH:MM:SS'
-export const UNLOCK_DATE = '2026-02-14T00:00:00';
+export const UNLOCK_DATE = '2026-02-12T00:00:00';
+
+// URL de la imagen de amor para la respuesta final
+// Pon tu foto en la carpeta public y pon aquí el nombre, o renómbrala a 'foto.jpg'
+export const LOVE_IMAGE_URL = "/foto.png";
 
 // Tipos de mensajes
 export type MessageType =
-    | { type: 'text'; content: string; sender: 'her' | 'me' }
-    | { type: 'question'; content: string; options: string[] }
-    | { type: 'flowers' }
-    | { type: 'playlist' }
-    | { type: 'phone' };
+    | { type: 'text'; content: string; sender: 'her' | 'me'; id?: string }
+    | { type: 'question'; content: string; options: string[]; id?: string }
+    | { type: 'flowers'; id?: string }
+    | { type: 'playlist'; id?: string }
+    | { type: 'phone'; id?: string }
+    | { type: 'image'; src: string; alt: string; sender: 'her' | 'me'; id?: string };
 
 // Flujo de mensajes
 export const MESSAGE_FLOW: MessageType[] = [
@@ -43,9 +48,17 @@ export const MESSAGE_FLOW: MessageType[] = [
     { type: 'playlist' },
     { type: 'text', content: 'Y bueno, aqui tienes mi numero, por si quieres agregarme :3 solo si quieres eh', sender: 'her' },
     { type: 'phone' },
-    { type: 'text', content: 'Feliz San Valentín Jessica ❤️ te quiero muchito', sender: 'her' }
+    { type: 'text', content: 'Feliz San Valentín Jessica ❤️ te quiero muchito', sender: 'her' },
+    {
+        type: 'question',
+        content: 'Una última pregunta... ¿Me quieres?',
+        options: ['Sí', 'No'],
+        id: 'love_question'
+    },
+    { type: 'text', content: 'Pa ti guapa', sender: 'her' }
+
 ];
 
 // Delays entre mensajes (en milisegundos)
 export const TYPING_DELAY = 1500; // Tiempo mostrando "escribiendo..."
-export const MESSAGE_DELAY = 1000; // Tiempo entre mensajes
+export const MESSAGE_DELAY = 2000; // Tiempo entre mensajes
