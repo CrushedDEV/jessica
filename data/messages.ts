@@ -13,7 +13,7 @@ export const PHONE_NUMBER = "+34 640 898 461";
 
 // Fecha de desbloqueo (cuando se mostrará el chat)
 // Formato: 'YYYY-MM-DDTHH:MM:SS'
-export const UNLOCK_DATE = '2026-02-12T00:00:00';
+export const UNLOCK_DATE = '2026-02-14T00:00:00';
 
 // URL de la imagen de amor para la respuesta final
 // Pon tu foto en la carpeta public y pon aquí el nombre, o renómbrala a 'foto.jpg'
